@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TacheComponent } from './components/tache/tache.component';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
-import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule } from '@angular/material';
+import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule, MatToolbarModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,10 @@ import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule } from 
     MatRadioModule,
     MatCardModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

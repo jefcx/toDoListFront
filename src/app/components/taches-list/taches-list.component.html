@@ -1,3 +1,7 @@
-<div *ngFor="let tache of taches">
-  <app-tache [tache]="tache"></app-tache>
+<div class="general">
+  <h1>Aujourd'hui</h1>
+
+  <div *ngFor="let tache of taches">
+    <app-tache [tache]="tache"></app-tache>
+  </div>
 </div>

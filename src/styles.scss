@@ -1,3 +1,13 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bf-icomoon/css/icomoon-free.css";
 @import "assets/myFlag/style.css";
+
+
+* {
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

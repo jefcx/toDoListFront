@@ -1,17 +1,17 @@
 <mat-card>
-  <mat-grid-list cols="3">
+  <mat-grid-list cols="8" rowHeight="50px">
 
-    <mat-grid-tile cols="1">
+    <mat-grid-tile [colspan]="1" [rowspan]= "1">
         <mat-radio-group>
             <mat-radio-button value="0"></mat-radio-button>
           </mat-radio-group>
     </mat-grid-tile>
 
-    <mat-grid-tile cols="1">
-        {{ tache.contenu }}
+    <mat-grid-tile [colspan]="6" [rowspan]= "1">
+        <div class="tacheContenu">{{ tache.contenu }}</div>
     </mat-grid-tile>
 
-    <mat-grid-tile cols="1">
+    <mat-grid-tile [colspan]="1" [rowspan]= "1">
         <div *ngIf="tache.priorite == 0"><i class="icon icon-myFlag" style="color:greenyellow" ></i></div>
         <div *ngIf="tache.priorite == 1"><i class="icon icon-myFlag" style="color:orange" ></i></div>
         <div *ngIf="tache.priorite == 2"><i class="icon icon-myFlag" style="color:red" ></i></div>
