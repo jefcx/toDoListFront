@@ -1,24 +1,39 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import * as moment from 'moment';
+import { TaskNotifierService } from 'src/app/shared/notifier/task-notifier.service';
+import { TextAreaValueDirective } from 'src/app/shared/directives/text-area-value.directive';
+import { TacheInterface } from 'src/app/interfaces/tache';
+
 
 @Component({
   selector: 'app-ajout-tache',
   templateUrl: './ajout-tache.component.html',
   styleUrls: ['./ajout-tache.component.scss']
 })
+
 export class AjoutTacheComponent implements OnInit {
 
+  @ViewChildren(TextAreaValueDirective) dirs;
+
   public isDisabled: boolean = true;
+  public buttonIsClicked: boolean = false;
+  public deleteValue: boolean = false;
+  public tachePrio: number = 0;
 
-  @Output() tache: EventEmitter<any> = new EventEmitter<any>();
-
-  constructor() { }
+  constructor(private notifier: TaskNotifierService) { }
 
   ngOnInit() {
   }
 
   public isActived(): void {
     this.isDisabled = false;
+
+    if(this.buttonIsClicked) {
+      this.isDisabled = true;
+      this.buttonIsClicked = false;
+      this.deleteValue = false;
+      this.dirs.first.changeTextArea();
+    }
   }
 
   public isStopped(): void {
@@ -26,19 +41,24 @@ export class AjoutTacheComponent implements OnInit {
   }
 
   public addTache(value: string): void {
-    console.log(value);
-    this.tache.emit(
+    this.notifier.sendTask(
       {
-        id: 99,
-        contenu: value,
-        dateEcheance: moment(),
-        priorite: 0,
-          projet: {
-            id: 1,
-            libelle: 'sport'
-          }
-      }
-    );
+      id: 99,
+      contenu: value,
+      dateEcheance: moment(),
+      priorite: 0,
+        projet: {
+          id: 1,
+          libelle: 'sport'
+        }
+      });
+    this.buttonIsClicked = true;
+    this.deleteValue = true;
+  }
+
+  public selectPriorite(priorite: number): void {
+    this.tachePrio = priorite;
+    console.log('priorite'+priorite);
   }
 
 }
