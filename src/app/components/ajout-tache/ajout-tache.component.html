@@ -1,0 +1,4 @@
+<div class="addTacheContainer" (click)=isActived() (clickOutside)=isStopped()>
+  <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea></textarea>
+  <button mat-fab class="buttonAdd" [disabled]="isDisabled" (click)=addTache(textArea.value)>+</button>
+</div>
