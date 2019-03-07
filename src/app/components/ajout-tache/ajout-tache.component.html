@@ -1,4 +1,16 @@
 <div class="addTacheContainer" (click)=isActived() (clickOutside)=isStopped()>
-  <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea></textarea>
+  <mat-chip-list [hidden]="isDisabled">
+    <mat-chip color="F9F9F9">
+      <button mat-icon-button (click)=selectPriorite(0)><i class="icon icon-myFlag" style="color:greenyellow" ></i></button>
+      <button mat-icon-button (click)=selectPriorite(1)><i class="icon icon-myFlag middle" style="color:orange" ></i></button>
+      <button mat-icon-button (click)=selectPriorite(2)><i class="icon icon-myFlag" style="color:red" ></i></button>
+    </mat-chip>
+    <mat-chip>
+      <input matInput [matDatepicker]="picker" placeholder="Date" (click)="picker.open()" class="inputDate">
+      <mat-datepicker touchUi #picker></mat-datepicker>
+    </mat-chip>
+    <mat-chip>Dal</mat-chip>
+  </mat-chip-list>
+  <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea [appTextAreaValue]="deleteValue"></textarea>
   <button mat-fab class="buttonAdd" [disabled]="isDisabled" (click)=addTache(textArea.value)>+</button>
 </div>

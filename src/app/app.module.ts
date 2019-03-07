@@ -6,11 +6,14 @@ import { AppComponent } from './app.component';
 import { TacheComponent } from './components/tache/tache.component';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
 import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
-  MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule, MatListModule, MAT_DIALOG_DATA, MatCheckboxModule, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
+  MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule,
+  MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule } from '@angular/material';
 import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
 import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TaskNotifierService } from './shared/notifier/task-notifier.service';
+import { TextAreaValueDirective } from './shared/directives/text-area-value.directive';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +21,8 @@ import { TaskNotifierService } from './shared/notifier/task-notifier.service';
     TacheComponent,
     TachesListComponent,
     TacheDialogComponent,
-    AjoutTacheComponent
+    AjoutTacheComponent,
+    TextAreaValueDirective
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,10 @@ import { TaskNotifierService } from './shared/notifier/task-notifier.service';
     MatDialogModule,
     MatListModule,
     ClickOutsideModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [TaskNotifierService],
   bootstrap: [AppComponent],
