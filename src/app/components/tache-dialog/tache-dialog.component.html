@@ -1,9 +1,7 @@
-<div mat-dialog-actions>
 <mat-action-list>
-        <button mat-list-item (click)="onDelete()">Terminer</button>
-        <button mat-list-item (click)="onDelete()">Modifier</button>
-        <button mat-list-item (click)="onDelete()">Supprimer</button>
-      </mat-action-list>
-    </div>
+  <button mat-list-item [mat-dialog-close]="{action: 0, id: data.id}">Terminer</button>
+  <button mat-list-item [mat-dialog-close]="{action: 1, id: data.id}">Modifier</button>
+  <button mat-list-item [mat-dialog-close]="{action: 2, id: data.id}">Supprimer</button>
+</mat-action-list>
 
 

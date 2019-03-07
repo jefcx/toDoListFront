@@ -1,7 +1,7 @@
+import { TacheComponent } from './../tache/tache.component';
 import { TacheInterface } from 'src/app/interfaces/tache';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren, Input } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import { TachesListComponent } from '../taches-list/taches-list.component';
 
 @Component({
   selector: 'app-tache-dialog',
@@ -11,14 +11,10 @@ import { TachesListComponent } from '../taches-list/taches-list.component';
 export class TacheDialogComponent implements OnInit {
 
 
-
   public taches: Array<TacheInterface>;
 
   constructor(public dialogRef: MatDialogRef<TacheDialogComponent>,
-              @Inject(MAT_DIALOG_DATA)
-    public tache: TacheInterface,
-
-    ) {this.taches = new Array<TacheInterface>();
+              @Inject(MAT_DIALOG_DATA) public data: any) {this.taches = new Array<TacheInterface>();
     }
 
 

@@ -10,10 +10,12 @@ export class TaskNotifierService {
 
   constructor() {
     this.behaviourSubjectTask = new BehaviorSubject<any>(null);
+
     this.taskShare = this.behaviourSubjectTask.asObservable();
    }
 
   public sendTask(task: any): void {
     this.behaviourSubjectTask.next(task);
   }
+
 }
