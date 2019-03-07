@@ -11,6 +11,7 @@ export class TachesListComponent implements OnInit {
 
   public taches: Array<TacheInterface>;
 
+
   constructor() {
     this.taches = new Array<TacheInterface>();
   }
@@ -39,7 +40,7 @@ export class TachesListComponent implements OnInit {
         },
         {
           id: 3,
-          contenu: 'ahah',
+          contenu: 'bidoowap',
           dateEcheance: moment(),
           priorite: 2,
           projet: {
@@ -48,6 +49,7 @@ export class TachesListComponent implements OnInit {
           }
       }
     );
+
   }
 
 }
