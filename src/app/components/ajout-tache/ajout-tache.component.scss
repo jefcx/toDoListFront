@@ -1,0 +1,36 @@
+.inputContenu {
+  background-color: #F9F9F9;
+  border: 1px solid rgba(255, 255, 255, .02);
+  border-radius: 35px;
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  background-color: #F9F9F9;
+  border: none;
+  width: calc(#{100%} - #{111px});
+  height: 65px;
+  padding-left: 35px;
+  padding-right: 66px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: rgba(0, 0, 0, .3);
+  overflow:hidden;
+  resize: none;
+}
+.buttonAdd {
+  position: fixed;
+  right: 15px;
+  bottom: calc(#{5px} + (#{75px} - #{56px}) / 2);
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.addTacheContainer {
+  height: 75px;
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  width: calc(#{100%} - #{10px});
+}
+

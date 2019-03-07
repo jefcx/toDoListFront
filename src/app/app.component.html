@@ -25,10 +25,8 @@
     <mat-icon>calendar_today</mat-icon>
     <span>7 prochains jours</span>
   </button>
-
-
-
 </mat-menu>
 
-<app-taches-list></app-taches-list>
+<app-taches-list [tacheAdd]></app-taches-list>
+<app-ajout-tache (tache)="receiveTache($event)"></app-ajout-tache>
 <router-outlet></router-outlet>

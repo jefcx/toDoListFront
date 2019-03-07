@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { TaskNotifierService } from './../../shared/notifier/task-notifier.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { TacheInterface } from 'src/app/interfaces/tache';
+
+import { Subscription } from 'rxjs';
+
 import * as moment from 'moment';
 
 @Component({
@@ -9,13 +13,20 @@ import * as moment from 'moment';
 })
 export class TachesListComponent implements OnInit {
 
+  @Input() tacheAdd: TacheInterface;
+
   public taches: Array<TacheInterface>;
 
-  constructor() {
+
+
+  constructor(private notifier: TaskNotifierService) {
+
     this.taches = new Array<TacheInterface>();
   }
 
   ngOnInit() {
+
+
     this.taches.push(
       {
         id: 1,
@@ -39,7 +50,7 @@ export class TachesListComponent implements OnInit {
         },
         {
           id: 3,
-          contenu: 'ahah',
+          contenu: 'bidoowap',
           dateEcheance: moment(),
           priorite: 2,
           projet: {
@@ -48,6 +59,21 @@ export class TachesListComponent implements OnInit {
           }
       }
     );
+    console.log(this.taches);
+
+    this.notifier.taskShare.subscribe((task) => {
+      if (task) {
+        console.log('Notification de tâche : ' + JSON.stringify(task));
+        this.taches.push(task);
+      }
+    });
+
+
   }
 
+  public addTache(tache:TacheInterface):void{
+    this.taches.push(tache);
+    console.log("tacheListComponent::addTache::" + this.taches.length);
+    console.log(this.taches);
+  }
 }

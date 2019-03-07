@@ -5,13 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TacheComponent } from './components/tache/tache.component';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
-import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule, MatToolbarModule, MatButtonModule } from '@angular/material';
+import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
+  MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule, MatListModule, MAT_DIALOG_DATA } from '@angular/material';
+import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
+import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { TaskNotifierService } from './shared/notifier/task-notifier.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TacheComponent,
-    TachesListComponent
+    TachesListComponent,
+    TacheDialogComponent,
+    AjoutTacheComponent
   ],
   imports: [
     BrowserModule,
@@ -23,9 +30,13 @@ import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule, MatMen
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    MatListModule,
+    ClickOutsideModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [TaskNotifierService],
+  bootstrap: [AppComponent],
+  entryComponents: [TacheDialogComponent]
 })
 export class AppModule { }
