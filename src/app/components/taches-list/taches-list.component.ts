@@ -2,8 +2,6 @@ import { TaskNotifierService } from './../../shared/notifier/task-notifier.servi
 import { Component, OnInit, Input } from '@angular/core';
 import { TacheInterface } from 'src/app/interfaces/tache';
 
-import { Subscription } from 'rxjs';
-
 import * as moment from 'moment';
 
 @Component({
@@ -63,8 +61,13 @@ export class TachesListComponent implements OnInit {
 
     this.notifier.taskShare.subscribe((task) => {
       if (task) {
-        console.log('Notification de tâche : ' + JSON.stringify(task));
-        this.taches.push(task);
+        if (task.hasOwnProperty('delete') && task.delete) {
+          console.log('Suppression demandée'+task.id);
+          this.taches.splice(this.taches.indexOf(task), 1);
+        } else {
+          console.log('Notification de tâche : ' + JSON.stringify(task));
+          this.taches.push(task);
+        }
       }
     });
 
@@ -73,7 +76,7 @@ export class TachesListComponent implements OnInit {
 
   public addTache(tache:TacheInterface):void{
     this.taches.push(tache);
-    console.log("tacheListComponent::addTache::" + this.taches.length);
+    console.log('tacheListComponent::addTache::' + this.taches.length);
     console.log(this.taches);
   }
 }

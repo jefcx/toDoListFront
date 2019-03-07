@@ -1,14 +1,16 @@
-<mat-card>
+<mat-card (click)="openDialog()">
   <mat-grid-list cols="8" rowHeight="50px">
 
     <mat-grid-tile [colspan]="1" [rowspan]= "1">
-        <mat-radio-group>
+
+          <mat-checkbox mat-raised-button [checked]="checked"[disabled]="checked"></mat-checkbox>
+
+            <!--<mat-radio-button mat-raised-button (click)="openDialog()" [value]="1" unchecked>-->
 
 
-            <mat-radio-button mat-raised-button (click)="openDialog()" value="0"></mat-radio-button>
 
 
-        </mat-radio-group>
+
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="6" [rowspan]= "1">

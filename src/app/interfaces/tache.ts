@@ -7,4 +7,5 @@ export interface TacheInterface {
   dateEcheance: moment.Moment;
   priorite: number;
   projet: ProjetInterface;
+  delete?: boolean
 }

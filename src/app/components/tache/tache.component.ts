@@ -1,8 +1,8 @@
 import { TacheInterface } from './../../interfaces/tache';
-import { Component, OnInit, Input } from '@angular/core';
-import * as moment from 'moment';
-import { TacheDialogComponent } from '../tache-dialog/tache-dialog.component';
+import { Component, OnInit, Input, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { TacheDialogComponent } from '../tache-dialog/tache-dialog.component';
+import { TaskNotifierService } from 'src/app/shared/notifier/task-notifier.service';
 
 @Component({
   selector: 'app-tache',
@@ -12,15 +12,37 @@ import { MatDialog } from '@angular/material';
 export class TacheComponent implements OnInit {
 
   @Input() tache: TacheInterface;
+  @Input() checked: boolean = false;
 
+  constructor(public dialog: MatDialog, private notifier: TaskNotifierService) {}
 
-  constructor(public dialog: MatDialog) {}
-
-     openDialog(): void {
-      const dialogRef = this.dialog.open(TacheDialogComponent, {
-        width: '200px',
-      });
-    }
   ngOnInit(): void {
+  }
+
+  openDialog(): void {
+    this.checked = true;
+
+    const dialogRef = this.dialog.open(TacheDialogComponent, {
+      width: '200px',
+      data: {id: this.tache.id}
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.checked = false;
+
+      if(result.action == 0) {
+        console.log('Bouton terminer');
+
+      }
+      if(result.action == 1) {
+        console.log('Bouton modifier');
+      }
+      if(result.action == 2) {
+        console.log(this.tache.id);
+        this.tache.delete = true;
+        this.notifier.sendTask(this.tache);
+      }
+    });
   }
 }

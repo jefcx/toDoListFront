@@ -1,4 +1,3 @@
-import { TaskNotifierService } from './shared/notifier/task-notifier.service';
 import { Component } from '@angular/core';
 import { TacheInterface } from './interfaces/tache';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
@@ -13,11 +12,6 @@ export class AppComponent {
   tacheAdd: TacheInterface;
   tacheCompo: TachesListComponent;
 
-  constructor(private notifier: TaskNotifierService) {
-  }
-
-  public receiveTache(tache: any): void {
-    console.log("Receiver app.component : " + JSON.stringify(tache));
-    this.notifier.sendTask(tache);
+  constructor() {
   }
 }
