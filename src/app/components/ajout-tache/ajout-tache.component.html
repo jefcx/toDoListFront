@@ -11,6 +11,6 @@
     </mat-chip>
     <mat-chip>Dal</mat-chip>
   </mat-chip-list>
-  <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea [appTextAreaValue]="deleteValue"></textarea>
+  <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea [appTextAreaValue]="deleteValue">{{ tache.contenu }}</textarea>
   <button mat-fab class="buttonAdd" [disabled]="isDisabled" (click)=addTache(textArea.value)>+</button>
 </div>
