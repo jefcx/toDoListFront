@@ -20,9 +20,39 @@ export class AjoutTacheComponent implements OnInit {
   public deleteValue: boolean = false;
   public tachePrio: number = 0;
 
+  public tache: TacheInterface;
+
   constructor(private notifier: TaskNotifierService) { }
 
   ngOnInit() {
+    this.tache = {
+      id: null,
+      contenu: '',
+      dateEcheance: null,
+      priorite: 0,
+      projet: {
+        id: null,
+        libelle: ''
+      }
+    };
+
+    this.notifier.taskModifyShare.subscribe((task) => {
+      if (task) {
+        if (task.hasOwnProperty('modify') && task.modify) {
+          this.tache = {
+            id: null,
+            contenu: task.contenu,
+            dateEcheance: null,
+            priorite: 0,
+            projet: {
+              id: null,
+              libelle: ''
+            }
+          };
+          this.isActived();
+        }
+      }
+    });
   }
 
   public isActived(): void {

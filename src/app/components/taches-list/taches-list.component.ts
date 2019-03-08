@@ -53,7 +53,7 @@ export class TachesListComponent implements OnInit {
           priorite: 2,
           projet: {
             id: 3,
-            libelle: 'cacaprout'
+            libelle: 'cuisine'
           }
       }
     );
