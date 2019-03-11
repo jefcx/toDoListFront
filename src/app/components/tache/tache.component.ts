@@ -36,7 +36,7 @@ export class TacheComponent implements OnInit {
 
       }
       if(result.action == 1) {
-        console.log('Bouton modifier');
+        console.log('Bouton modifier: ' + this.tache.contenu);
         this.tache.modify = true;
         this.notifier.sendModifyTask(this.tache);
       }

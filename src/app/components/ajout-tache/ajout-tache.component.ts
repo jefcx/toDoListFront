@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChildren, Input } from '@angular/core';
 import * as moment from 'moment';
 import { TaskNotifierService } from 'src/app/shared/notifier/task-notifier.service';
 import { TextAreaValueDirective } from 'src/app/shared/directives/text-area-value.directive';
 import { TacheInterface } from 'src/app/interfaces/tache';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -19,10 +21,13 @@ export class AjoutTacheComponent implements OnInit {
   public buttonIsClicked: boolean = false;
   public deleteValue: boolean = false;
   public tachePrio: number = 0;
+  public pickerIsOpen: boolean = false;
+
+  public date = new FormControl();
 
   public tache: TacheInterface;
 
-  constructor(private notifier: TaskNotifierService) { }
+  constructor(private notifier: TaskNotifierService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tache = {
@@ -39,23 +44,22 @@ export class AjoutTacheComponent implements OnInit {
     this.notifier.taskModifyShare.subscribe((task) => {
       if (task) {
         if (task.hasOwnProperty('modify') && task.modify) {
+          this.date.setValue(moment(task.dateEcheance).toDate());
           this.tache = {
-            id: null,
+            id: task.id,
             contenu: task.contenu,
-            dateEcheance: null,
-            priorite: 0,
-            projet: {
-              id: null,
-              libelle: ''
-            }
+            dateEcheance: task.dateEcheance,
+            priorite: task.priorite,
+            projet: task.projet,
+            modify: true
           };
-          this.isActived();
+          this.isActived(task.contenu);
         }
       }
     });
   }
 
-  public isActived(): void {
+  public isActived(newContenu?: string): void {
     this.isDisabled = false;
 
     if(this.buttonIsClicked) {
@@ -64,31 +68,57 @@ export class AjoutTacheComponent implements OnInit {
       this.deleteValue = false;
       this.dirs.first.changeTextArea();
     }
+
+    if(newContenu) {
+      this.dirs.first.changeTextArea(newContenu);
+    }
   }
 
   public isStopped(): void {
-    this.isDisabled = true;
+    if(!this.pickerIsOpen) {
+      this.isDisabled = true;
+    }
+    this.pickerIsOpen = false;
   }
 
   public addTache(value: string): void {
-    this.notifier.sendTask(
-      {
-      id: 99,
-      contenu: value,
-      dateEcheance: moment(),
-      priorite: 0,
-        projet: {
-          id: 1,
-          libelle: 'sport'
-        }
-      });
+    if(this.tache.modify) {
+      console.log('contenu textarea envoi : ' + value);
+      this.notifier.sendTask(
+        {
+        id: this.tache.id,
+        contenu: value,
+        dateEcheance: this.tache.dateEcheance,
+        priorite: this.tache.priorite,
+        projet: this.tache.projet,
+        modify: true
+        });
+
+      delete this.tache.modify;
+    } else {
+        this.notifier.sendTask(
+        {
+        id: null,
+        contenu: value,
+        dateEcheance: moment(),
+        priorite: this.tachePrio,
+          projet: {
+            id: 1,
+            libelle: 'sport'
+          }
+        });
+    }
     this.buttonIsClicked = true;
     this.deleteValue = true;
   }
 
   public selectPriorite(priorite: number): void {
     this.tachePrio = priorite;
-    console.log('priorite'+priorite);
+    console.log('priorite' + priorite);
+  }
+
+  public pickerOpen(): void {
+    this.pickerIsOpen = true;
   }
 
 }

@@ -7,13 +7,14 @@ import { TacheComponent } from './components/tache/tache.component';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
 import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
   MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule,
-  MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule } from '@angular/material';
+  MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule,
+  MatFormFieldModule } from '@angular/material';
 import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
 import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TaskNotifierService } from './shared/notifier/task-notifier.service';
 import { TextAreaValueDirective } from './shared/directives/text-area-value.directive';
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,10 @@ import { TextAreaValueDirective } from './shared/directives/text-area-value.dire
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule
   ],
   providers: [TaskNotifierService],
   bootstrap: [AppComponent],

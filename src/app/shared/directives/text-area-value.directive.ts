@@ -8,10 +8,13 @@ export class TextAreaValueDirective {
 
   constructor(private element: ElementRef) { }
 
-  public changeTextArea() {
+  public changeTextArea(textModify?: string) {
     if(this.deleteValue) {
-      console.log('Value textArea::'+this.element.nativeElement.value);
+      console.log('Value textArea::' + this.element.nativeElement.value);
       this.element.nativeElement.value = '';
+    }
+    if(textModify) {
+      this.element.nativeElement.value = textModify;
     }
   }
 }

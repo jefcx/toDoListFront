@@ -61,10 +61,20 @@ export class TachesListComponent implements OnInit {
 
     this.notifier.taskShare.subscribe((task) => {
       if (task) {
-        if (task.hasOwnProperty('delete') && task.delete) {
-          console.log('Suppression demandée'+task.id);
+
+        let deleteMode: boolean = task.hasOwnProperty('delete') && task.delete;
+        let modifyMode: boolean = task.hasOwnProperty('modify') && task.modify;
+
+        if (deleteMode) {
+          console.log('Suppression demandée ' + task.id);
           this.taches.splice(this.taches.indexOf(task), 1);
-        } else {
+        }
+        if (modifyMode) {
+          console.log('Modification demandée ' + task.contenu);
+          this.taches[this.taches.findIndex(item => item.id === task.id)].contenu = task.contenu;
+          delete this.taches[this.taches.findIndex(item => item.id === task.id)].modify;
+        }
+        if(!deleteMode && !modifyMode) {
           console.log('Notification de tâche : ' + JSON.stringify(task));
           this.taches.push(task);
         }
