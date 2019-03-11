@@ -1,26 +1,37 @@
 <mat-card (click)="openDialog()">
   <mat-grid-list cols="8" rowHeight="50px">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-checkbox
+        mat-raised-button
+        [checked]="checked"
+        [disabled]="checked"
+      ></mat-checkbox>
 
-    <mat-grid-tile [colspan]="1" [rowspan]= "1">
-
-          <mat-checkbox mat-raised-button [checked]="checked"[disabled]="checked"></mat-checkbox>
-
-            <!--<mat-radio-button mat-raised-button (click)="openDialog()" [value]="1" unchecked>-->
-
-
-
-
-
+      <!--<mat-radio-button mat-raised-button (click)="openDialog()" [value]="1" unchecked>-->
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="6" [rowspan]= "1">
-        <div class="tacheContenu">{{ tache.contenu }}</div>
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <div class="tacheContenu">{{ tache.contenu }}</div>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="1" [rowspan]= "1">
-        <div *ngIf="tache.priorite == 0"><i class="icon icon-myFlag" style="color:greenyellow" ></i></div>
-        <div *ngIf="tache.priorite == 1"><i class="icon icon-myFlag" style="color:orange" ></i></div>
-        <div *ngIf="tache.priorite == 2"><i class="icon icon-myFlag" style="color:red" ></i></div>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <div class="tacheDate">{{ tache.dateEcheance | momentPipe: 'D MMM' }}</div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <div class="tacheProjet">{{ tache.projet.libelle }}</div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <div *ngIf="tache.priorite == 0">
+        <i class="icon icon-myFlag" style="color:greenyellow"></i>
+      </div>
+      <div *ngIf="tache.priorite == 1">
+        <i class="icon icon-myFlag" style="color:orange"></i>
+      </div>
+      <div *ngIf="tache.priorite == 2">
+        <i class="icon icon-myFlag" style="color:red"></i>
+      </div>
     </mat-grid-tile>
 
   </mat-grid-list>

@@ -29,7 +29,7 @@ export class TachesListComponent implements OnInit {
       {
         id: 1,
         contenu: 'blabla',
-        dateEcheance: moment(),
+        dateEcheance: moment('2019-06-06'),
         priorite: 0,
         projet: {
           id: 1,
@@ -39,7 +39,7 @@ export class TachesListComponent implements OnInit {
       {
         id: 2,
         contenu: 'ahah',
-        dateEcheance: moment(),
+        dateEcheance: moment('2019-06-06'),
         priorite: 1,
         projet: {
           id: 2,
