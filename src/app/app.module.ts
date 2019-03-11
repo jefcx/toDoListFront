@@ -7,14 +7,17 @@ import { TacheComponent } from './components/tache/tache.component';
 import { TachesListComponent } from './components/taches-list/taches-list.component';
 import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
   MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule,
-  MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule,
-  MatFormFieldModule } from '@angular/material';
+  MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule,
+  MatCheckboxModule, MatFormField, MatOptionModule, MatSelectModule, MatAutocompleteModule } from '@angular/material';
 import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
 import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TaskNotifierService } from './shared/notifier/task-notifier.service';
 import { TextAreaValueDirective } from './shared/directives/text-area-value.directive';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MomentPipePipe } from './shared/pipes/moment-pipe.pipe';
+import { ProjetDialogComponent } from './components/projet-dialog/projet-dialog.component';
+import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     TachesListComponent,
     TacheDialogComponent,
     AjoutTacheComponent,
-    TextAreaValueDirective
+    TextAreaValueDirective,
+    MomentPipePipe,
+    ProjetDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +48,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    FormsModule
+
   ],
   providers: [TaskNotifierService],
   bootstrap: [AppComponent],
-  entryComponents: [TacheDialogComponent]
+  entryComponents: [TacheDialogComponent, ProjetDialogComponent]
 })
 export class AppModule { }

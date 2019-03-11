@@ -9,7 +9,7 @@
       <input matInput [matDatepicker]="picker" placeholder="Date" (click)="picker.open()" (click)="pickerOpen()" class="inputDate" [formControl]="date">
       <mat-datepicker touchUi #picker></mat-datepicker>
     </mat-chip>
-    <mat-chip>{{ tache.projet.libelle }}</mat-chip>
+    <mat-chip (click)="openDialog()">Projet</mat-chip>
   </mat-chip-list>
   <textarea class="inputContenu" placeholder="Nouvelle tache" #textArea [appTextAreaValue]="deleteValue">{{ tache.contenu }}</textarea>
   <button mat-fab class="buttonAdd" [disabled]="isDisabled" (click)=addTache(textArea.value)>+</button>
