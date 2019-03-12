@@ -15,7 +15,8 @@ export class TachesListComponent implements OnInit {
 
   public taches: Array<TacheInterface>;
 
-
+  public orderBy: string = 'Date';
+  private orderByValue: boolean = false;
 
   constructor(private notifier: TaskNotifierService) {
 
@@ -58,7 +59,9 @@ export class TachesListComponent implements OnInit {
       }
     );
     console.log(this.taches);
-
+    this.taches.sort((a, b) => {
+      return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+    });
     this.notifier.taskShare.subscribe((task) => {
       if (task) {
 
@@ -77,16 +80,34 @@ export class TachesListComponent implements OnInit {
         if(!deleteMode && !modifyMode) {
           console.log('Notification de tâche : ' + JSON.stringify(task));
           this.taches.push(task);
+          this.taches.sort((a, b) => {
+            return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+          });
         }
       }
     });
-
-
   }
 
   public addTache(tache:TacheInterface):void{
     this.taches.push(tache);
     console.log('tacheListComponent::addTache::' + this.taches.length);
     console.log(this.taches);
+  }
+
+  public sortBy(): void{
+    if(this.orderByValue === false) {
+      this.taches.sort((a, b) => a.projet.libelle.localeCompare(b.projet.libelle));
+      this.orderByValue = true;
+      this.orderBy = 'Projet';
+      return;
+    }
+    if(this.orderByValue === true) {
+      this.taches.sort((a, b) => {
+        return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+      });
+      this.orderByValue = false;
+      this.orderBy = 'Date';
+      return ;
+    }
   }
 }

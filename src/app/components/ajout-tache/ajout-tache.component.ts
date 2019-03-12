@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material';
 import { ProjetDialogComponent } from '../projet-dialog/projet-dialog.component';
 import { ProjetInterface } from 'src/app/interfaces/projet';
 import { FormControl } from '@angular/forms';
+import { $ } from 'protractor';
 
 
 @Component({
@@ -24,15 +25,35 @@ export class AjoutTacheComponent implements OnInit {
   public deleteValue: boolean = false;
   public tachePrio: number = 0;
   public pickerIsOpen: boolean = false;
+  public projetIsOpen: boolean = false;
+
+  public projetSelect: string = null;
 
   public date = new FormControl();
 
   @Input() tache: TacheInterface;
   @Input() projet: ProjetInterface;
 
+  public projets: Array<ProjetInterface> = new Array<ProjetInterface>();
+
   constructor(private notifier: TaskNotifierService, public dialog: MatDialog) { }
 
   ngOnInit() {
+
+    this.projets.push(
+      {
+        id: 1,
+        libelle: 'sport'
+      },
+      {
+        id: 2,
+        libelle: 'cacaprout'
+      },
+      {
+        id: 3,
+        libelle: 'cuisine'
+      });
+
     this.tache = {
       id: null,
       contenu: '',
@@ -57,6 +78,24 @@ export class AjoutTacheComponent implements OnInit {
             modify: true
           };
           this.isActived(task.contenu);
+          this.projetSelect = task.projet.libelle;
+        }
+      }
+    });
+
+    this.notifier.taskShare.subscribe((task) => {
+      if (task) {
+
+        let doublonItem: boolean = false;
+
+        for (let projet of this.projets) {
+          if (projet.libelle === task.projet.libelle) {
+            doublonItem = true;
+          }
+        }
+
+        if(!doublonItem) {
+          this.projets.push(task.projet);
         }
       }
     });
@@ -78,7 +117,7 @@ export class AjoutTacheComponent implements OnInit {
   }
 
   public isStopped(): void {
-    if(!this.pickerIsOpen) {
+    if(!this.pickerIsOpen && !this.projetIsOpen) {
       this.isDisabled = true;
     }
     this.pickerIsOpen = false;
@@ -91,6 +130,12 @@ export class AjoutTacheComponent implements OnInit {
   public addTache(value: string): void {
     if(this.tache.modify) {
       console.log('contenu textarea envoi : ' + value);
+
+      if(this.tache.projet.libelle !== this.projetSelect) {
+        this.tache.projet.id = null;
+        this.tache.projet.libelle = this.projetSelect;
+      }
+
       this.notifier.sendTask(
         {
         id: this.tache.id,
@@ -103,16 +148,22 @@ export class AjoutTacheComponent implements OnInit {
 
       delete this.tache.modify;
     } else {
-        this.notifier.sendTask(
+
+      let dateTemp: moment.Moment = null;
+
+      if(this.date.value) {
+        dateTemp = moment(this.date.value);
+      }
+
+      this.notifier.sendTask(
         {
         id: null,
         contenu: value,
-        dateEcheance: moment(),
+        dateEcheance: dateTemp,
         priorite: this.tachePrio,
-          projet: {
-            id: 1,
-            libelle: 'sport'
-          }
+        projet: {
+          libelle: this.projetSelect
+        }
         });
     }
     this.buttonIsClicked = true;
@@ -123,13 +174,21 @@ export class AjoutTacheComponent implements OnInit {
     this.pickerIsOpen = true;
   }
 
-
+  public projetOpen(): void {
+    this.projetIsOpen = true;
+  }
 
   openDialog(): void {
-
     const dialogRef = this.dialog.open(ProjetDialogComponent, {
-      width: '200px',
-      data: {projet: this.projet}
+      width: '250px',
+      data: {projets: this.projets, select: this.projetSelect}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.projetIsOpen = false;
+      if(result && result.input != null) {
+        this.projetSelect = result.input;
+      }
     });
   }
 }

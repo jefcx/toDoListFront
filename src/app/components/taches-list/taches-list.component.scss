@@ -4,6 +4,9 @@ h1{
   font-size: 25px;
   margin-bottom: 0;
   padding-bottom: 0;
+  position: absolute;
+  left: 5px;
+  top: 0;
 }
 
 
@@ -11,3 +14,9 @@ h1{
   margin: 10px;
 }
 
+.trier {
+  position: absolute;
+  right: 5px;
+  top: 16px;
+  color: rgba($color: #000000, $alpha: .4)
+}

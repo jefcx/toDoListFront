@@ -10,9 +10,9 @@ export class MomentPipePipe implements PipeTransform {
   transform(date: moment.Moment, format?: string): any {
     if (date) {
       if (format) {
-        return date.format(format);
+        return date.locale('fr').format(format);
       }
-      return date.format('MMMM Do YYYY, h:mm:ss a');
+      return date.locale('fr').format('MMMM Do YYYY, h:mm:ss a');
     }
     return null;
   }

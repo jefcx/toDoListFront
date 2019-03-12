@@ -1,5 +1,12 @@
 <div class="general">
-  <h1>7 prochains jours</h1>
+  <mat-grid-list cols="4" rowHeight="50px">
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <h1>7 prochains jours</h1>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <button mat-button (click)="sortBy()" class="trier">&#9662;{{ orderBy }}</button>
+    </mat-grid-tile>
+  </mat-grid-list>
 
   <div *ngFor="let tache of taches">
     <app-tache [tache]="tache"></app-tache>

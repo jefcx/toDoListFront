@@ -8,7 +8,7 @@ import { TachesListComponent } from './components/taches-list/taches-list.compon
 import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
   MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule,
   MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule,
-  MatCheckboxModule, MatFormField, MatOptionModule, MatSelectModule, MatAutocompleteModule } from '@angular/material';
+  MatCheckboxModule, MatOptionModule, MatSelectModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
 import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
 import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -52,7 +52,8 @@ import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
     MatOptionModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatInputModule
 
   ],
   providers: [TaskNotifierService],
