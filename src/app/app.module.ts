@@ -8,7 +8,8 @@ import { TachesListComponent } from './components/taches-list/taches-list.compon
 import { MatRadioModule, MatCardModule, MatGridListModule, MatIconModule,
   MatMenuModule, MatToolbarModule, MatButtonModule, MatDialogModule,
   MatListModule, MatChipsModule, MatDatepickerModule, MatNativeDateModule,
-  MatCheckboxModule, MatFormField, MatOptionModule, MatSelectModule, MatAutocompleteModule } from '@angular/material';
+  MatCheckboxModule, MatFormField, MatOptionModule, MatSelectModule, MatAutocompleteModule,
+  MatInputModule, MatProgressSpinnerModule,MatButtonToggleModule } from '@angular/material';
 import { TacheDialogComponent } from './components/tache-dialog/tache-dialog.component';
 import { AjoutTacheComponent } from './components/ajout-tache/ajout-tache.component';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -17,6 +18,12 @@ import { TextAreaValueDirective } from './shared/directives/text-area-value.dire
 import { MomentPipePipe } from './shared/pipes/moment-pipe.pipe';
 import { ProjetDialogComponent } from './components/projet-dialog/projet-dialog.component';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
+import { RegistrationComponentComponent } from './registration-component/registration-component.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { UserComponent } from './components/user/user.component';
+import { TodayComponent } from './components/today/today.component';
 
 
 @NgModule({
@@ -28,7 +35,12 @@ import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
     AjoutTacheComponent,
     TextAreaValueDirective,
     MomentPipePipe,
-    ProjetDialogComponent
+    ProjetDialogComponent,
+    RegistrationComponentComponent,
+    AccueilComponent,
+    LoginComponent,
+    UserComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -52,9 +64,17 @@ import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
     MatOptionModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatButtonToggleModule,
+    RouterModule.forRoot([
+        { path: '', redirectTo: '/', pathMatch: 'full' },
+        { path: 'register', component: RegistrationComponentComponent },
+        { path: 'login', component: LoginComponent },
+      ]),
+    ],
 
-  ],
   providers: [TaskNotifierService],
   bootstrap: [AppComponent],
   entryComponents: [TacheDialogComponent, ProjetDialogComponent]

@@ -29,24 +29,7 @@ ngOnInit() {
     {
         id: 2,
         libelle: 'cacaprout'
-    },{
-      id: 1,
-      libelle: 'sport'
     }
-  ,{
-    id: 1,
-    libelle: 'sport'
-  }
-,{
-  id: 1,
-  libelle: 'sport'
-}
-,{
-  id: 1,
-  libelle: 'sport'
-}
-,
-
  )};
 
   onNoClick(): void {
