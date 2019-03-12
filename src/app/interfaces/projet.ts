@@ -1,5 +1,4 @@
 export interface ProjetInterface {
-  id: number;
+  id?: number;
   libelle: string;
-
 }

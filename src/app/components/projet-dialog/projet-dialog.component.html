@@ -1,31 +1,15 @@
-<!--<mat-form-field>
-
-    <mat-option *ngFor="let projet of projets" >
-      {{projet.libelle}}
-    </mat-option>
-
-</mat-form-field>
-
-
-
-<mat-form-field>
-    <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+<h4>Sélectionner un projet</h4>
+<mat-action-list>
+  <mat-form-field>
+    <input type="text" placeholder="Projet" matInput [formControl]="myControl" [matAutocomplete]="auto" #input>
     <mat-autocomplete #auto="matAutocomplete">
-
-
-    <mat-option *ngFor="let projet of projets" [value]="projet">
-
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{ option }}
       </mat-option>
     </mat-autocomplete>
-  </mat-form-field>--->
-
-  <mat-action-list>
-      <input matInput placeholder="Projet" value="">
-
-      <mat-option *ngFor="let projet of projets" [value]="projet">
-      <button mat-list-item [mat-dialog-close]=""> {{projet.libelle}}</button>
-      </mat-option>
-    </mat-action-list>
-
-
-
+  </mat-form-field>
+</mat-action-list>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-button [mat-dialog-close]="{input: input.value}" cdkFocusInitial>Valider</button>
+</mat-dialog-actions>

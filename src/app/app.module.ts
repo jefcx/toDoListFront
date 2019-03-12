@@ -23,7 +23,7 @@ import { AccueilComponent } from './components/accueil/accueil.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './components/user/user.component';
-import { TodayComponent } from './components/today/today.component';
+
 
 
 @NgModule({
