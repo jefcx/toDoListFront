@@ -11,15 +11,15 @@
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="3" [rowspan]="1">
-      <div class="tacheContenu">{{ tache.contenu }}</div>
+      <div class="tacheContenu {{ isLate }}" isLate>{{ tache.contenu }}</div>
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <div class="tacheDate">{{ tache.dateEcheance | momentPipe: 'D MMM' }}</div>
+    <div class="tacheDate {{ isLate }}">{{ tache.dateEcheance | momentPipe: 'D MMM YYYY' }}</div>
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="2" [rowspan]="1">
-      <div class="tacheProjet">{{ tache.projet.libelle || "Boite de réception"}}</div>
+      <div class="tacheProjet {{ isLate }}" isLate>{{ tache.projet.libelle || "Boite de réception"}}</div>
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="1" [rowspan]="1">

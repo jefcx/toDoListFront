@@ -38,4 +38,35 @@ export class TacheService {
       tacheToSave
     );
   }
+
+  public modifyTache(tache: TacheInterface): Observable<any> {
+    const uri: string = environment.apiRoot + 'private/tache';
+
+    let date: Date = null;
+
+    if(tache.dateEcheance !== null) {
+      date = tache.dateEcheance.toDate();
+    }
+
+    const tacheToSave = {
+      id: tache.id,
+      contenu: tache.contenu,
+      dateEcheance: date,
+      priorite: tache.priorite,
+      projet: tache.projet
+    };
+
+    return this.httpClient.put<any>(
+      uri,
+      tacheToSave
+    );
+  }
+
+  public deleteTache(id: number): Observable<any> {
+    return this.httpClient.delete<any>(environment.apiRoot + 'private/tache/' + id);
+  }
+
+  public valideTache(id: number): Observable<any> {
+    return this.httpClient.get<any>(environment.apiRoot + 'private/tache/' + id);
+  }
 }

@@ -24,6 +24,12 @@ export class UserComponent implements OnInit {
       width: '500px',
       data: {}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.name && result.pwd) {
+        this.inscription(result.name, result.pwd);
+      }
+    });
 }
 
   openDialogConnexion(): void {
@@ -38,6 +44,34 @@ export class UserComponent implements OnInit {
       }
     });
   }
+
+  public inscription(name: string, password: string): void {
+    this._inscription(name, password).subscribe(result => {
+      if(result.id) {
+        this._connect(name, password).subscribe(result => {
+          if(result.access_token) {
+            this.authService.setToken(result.access_token);
+            this.router.navigate(['../today']);
+          }
+        });
+      }
+    });
+  }
+
+  private _inscription(name: string, password: string): Observable<any> {
+    const uri: string = 'http://localhost:8000/api/public/user';
+
+    const user = {
+      login: name,
+      mdp: password
+    };
+
+    return this.httpClient.post<any>(
+      uri,
+      user
+    );
+  }
+
 
   public connection(login: string, password: string): void {
     this._connect(login, password).subscribe(result => {

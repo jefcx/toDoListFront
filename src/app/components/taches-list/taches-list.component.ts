@@ -24,6 +24,7 @@ export class TachesListComponent implements OnInit {
   private dateNow: moment.Moment = moment().add(1, 'days');
   private dateSevenDays: moment.Moment = moment().add(7, 'days');
   public dateCompare: moment.Moment;
+  public boiteReception: boolean = false;
 
   constructor(private notifier: TaskNotifierService, private route: ActivatedRoute, private tacheService: TacheService) {
     this.taches = new Array<TacheInterface>();
@@ -31,12 +32,23 @@ export class TachesListComponent implements OnInit {
 
   ngOnInit() {
     this.tacheService.getAllTaches().subscribe(taches => {
-      console.log('coucou' + JSON.stringify(taches));
-      for(let tache of taches) {
-        if(tache.dateEcheance != null) {
-          tache.dateEcheance = moment(tache.dateEcheance);
+      if(taches) {
+        for(let tache of taches) {
+          if(tache.dateEcheance != null) {
+            tache.dateEcheance = moment(tache.dateEcheance);
+          }
+          if(tache.projet.libelle == null) {
+            tache.projet.libelle = "Boite de réception";
+          }
+          this.taches.sort((a, b) => {
+            if(a.dateEcheance !== null && b.dateEcheance !== null) {
+              return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
+            } else {
+              return 1;
+            }
+          });
+          this.taches.push(tache);
         }
-        this.taches.push(tache);
       }
     });
 
@@ -48,43 +60,19 @@ export class TachesListComponent implements OnInit {
     if(this.pageTitle === '7 prochains jours') {
       this.dateCompare = this.dateSevenDays.clone();
     }
+    if(this.pageTitle === 'Dashboard') {
+      this.dateCompare = null;
+      this.boiteReception = true;
+    }
 
-    /*this.taches.push(
-      {
-        id: 1,
-        contenu: 'blabla',
-        dateEcheance: moment('2019-03-12'),
-        priorite: 0,
-        projet: {
-          id: 1,
-          libelle: 'sport'
-        }
-      },
-      {
-        id: 2,
-        contenu: 'ahah',
-        dateEcheance: moment('2019-03-15'),
-        priorite: 1,
-        projet: {
-          id: 2,
-          libelle: 'cacaprout'
-        }
-        },
-        {
-          id: 3,
-          contenu: 'bidoowap',
-          dateEcheance: moment('2019-03-12'),
-          priorite: 2,
-          projet: {
-            id: 3,
-            libelle: 'cuisine'
-          }
-      }
-    );*/
-    //console.log(this.taches[0].dateEcheance.format('DD-MM-YYYY HH:mm:ss'));
     this.taches.sort((a, b) => {
-      return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+      if(a.dateEcheance !== null && b.dateEcheance !== null) {
+        return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
+      } else {
+        return 1;
+      }
     });
+
     this.notifier.taskShare.subscribe((task) => {
       if (task) {
 
@@ -92,35 +80,33 @@ export class TachesListComponent implements OnInit {
         let modifyMode: boolean = task.hasOwnProperty('modify') && task.modify;
 
         if (deleteMode) {
-          console.log('Suppression demandée ' + task.id);
           this.taches.splice(this.taches.indexOf(task), 1);
         }
         if (modifyMode) {
-          console.log('Modification demandée ' + task.dateEcheance.toDate());
           this.taches[this.taches.findIndex(item => item.id === task.id)].contenu = task.contenu;
           this.taches[this.taches.findIndex(item => item.id === task.id)].dateEcheance = task.dateEcheance;
           this.taches[this.taches.findIndex(item => item.id === task.id)].priorite = task.priorite;
           this.taches[this.taches.findIndex(item => item.id === task.id)].projet = task.projet;
+
           delete this.taches[this.taches.findIndex(item => item.id === task.id)].modify;
         }
         if(!deleteMode && !modifyMode) {
-          console.log('Notification de tâche : ' + JSON.stringify(task));
-          this.taches.push(task);
-          this.taches.sort((a, b) => {
-            return moment(a.dateEcheance).diff(moment(b.dateEcheance));
-          });
-          //TODO idUtilisateur
 
+          this.taches.sort((a, b) => {
+            if(a.dateEcheance !== null && b.dateEcheance !== null) {
+              return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
+            } else {
+              return 1;
+            }
+          });
         }
       }
     });
   }
 
-  public addTache(tache:TacheInterface):void{
+  /*public addTache(tache:TacheInterface):void{
     this.taches.push(tache);
-    console.log('tacheListComponent::addTache::' + this.taches.length);
-    console.log(this.taches);
-  }
+  }*/
 
   public sortBy(): void{
     if(this.orderByValue === false) {
@@ -131,7 +117,11 @@ export class TachesListComponent implements OnInit {
     }
     if(this.orderByValue === true) {
       this.taches.sort((a, b) => {
-        return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+        if(a.dateEcheance !== null && b.dateEcheance !== null) {
+          return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
+        } else {
+          return 1;
+        }
       });
       this.orderByValue = false;
       this.orderBy = 'Date';

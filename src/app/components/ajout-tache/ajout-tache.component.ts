@@ -36,7 +36,8 @@ export class AjoutTacheComponent implements OnInit {
 
   public projets: Array<ProjetInterface> = new Array<ProjetInterface>();
 
-  constructor(private notifier: TaskNotifierService, public dialog: MatDialog, private snackBar: MatSnackBar, private tacheService: TacheService) { }
+  constructor(private notifier: TaskNotifierService, public dialog: MatDialog,
+    private snackBar: MatSnackBar, private tacheService: TacheService) { }
 
   ngOnInit() {
 
@@ -85,6 +86,26 @@ export class AjoutTacheComponent implements OnInit {
         }
       }
     });
+
+    this.tacheService.getAllTaches().subscribe(taches => {
+
+      if(taches) {
+        for(let tache of taches) {
+
+          let doublonItem: boolean = false;
+
+          for (let projet of this.projets) {
+            if (projet.libelle === tache.projet.libelle) {
+              doublonItem = true;
+            }
+          }
+
+          if(!doublonItem) {
+            this.projets.push(tache.projet);
+          }
+        }
+      }
+    });
   }
 
   public isActived(newContenu?: string): void {
@@ -111,11 +132,9 @@ export class AjoutTacheComponent implements OnInit {
 
   public selectPriorite(priorite: number): void {
     this.tachePrio = priorite;
-    console.log('priorite'+priorite);
   }
   public addTache(value: string): void {
     if(this.tache.modify) {
-      console.log('contenu textarea envoi : ' + value);
 
       if(this.tache.projet.libelle !== this.projetSelect) {
         this.tache.projet.id = null;
@@ -126,17 +145,21 @@ export class AjoutTacheComponent implements OnInit {
         this.tache.dateEcheance = moment(this.date.value);
       }
 
-      this.notifier.sendTask(
-        {
+      let myTache = {
         id: this.tache.id,
         contenu: value,
         dateEcheance: this.tache.dateEcheance,
         priorite: this.tache.priorite,
         projet: this.tache.projet,
         modify: true
-        });
+      };
 
-        console.log('arrrr '+this.tache.dateEcheance.toDate());
+      this.tacheService.modifyTache(myTache).subscribe(result => {
+        if(result !== null) {
+          this.notifier.sendTask(myTache);
+        }
+      });
+
 
       delete this.tache.modify;
 
@@ -167,7 +190,6 @@ export class AjoutTacheComponent implements OnInit {
       };
 
       this.tacheService.saveTache(myTache).subscribe(result => {
-        console.log('sauvegarde' + JSON.stringify(result));
         myTache.id = result.id;
         if(result !== null) {
           this.notifier.sendTask(myTache);
@@ -203,6 +225,5 @@ export class AjoutTacheComponent implements OnInit {
   }
 
   public test(): void {
-    console.log('coucou');
   }
 }
