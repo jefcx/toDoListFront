@@ -12,21 +12,21 @@ const routes: Routes = [
     component : AccueilComponent,
     data: { title: 'Accueil'}
   },
-  /*{
+  {
     path:'boite',
     component :  TachesListComponent,
     data: { title: 'Boite de réception'}
-  },*/
+  },
   {
     path: 'today',
     component : TachesListComponent,
     data: { title: 'Aujourd\'hui'}
   },
- /* {
+  {
     path:'week',
     component :  TachesListComponent,
     data: { title: '7 prochains jours'}
-  },*/
+  },
   {
     path:'dashboard',
     component :  TachesListComponent,
@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path:'',
-    redirectTo : 'accueil', //TODO remettre 'user'
+    redirectTo : 'user', //TODO remettre 'user'
     pathMatch: 'full'
   },
 ];

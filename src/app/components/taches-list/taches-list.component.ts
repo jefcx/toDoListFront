@@ -1,8 +1,10 @@
+import { TacheService } from './../../shared/services/tache-service.service';
 import { TaskNotifierService } from './../../shared/notifier/task-notifier.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { TacheInterface } from 'src/app/interfaces/tache';
 
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-taches-list',
@@ -18,19 +20,40 @@ export class TachesListComponent implements OnInit {
   public orderBy: string = 'Date';
   private orderByValue: boolean = false;
 
-  constructor(private notifier: TaskNotifierService) {
+  public pageTitle: string;
+  private dateNow: moment.Moment = moment().add(1, 'days');
+  private dateSevenDays: moment.Moment = moment().add(7, 'days');
+  public dateCompare: moment.Moment;
 
+  constructor(private notifier: TaskNotifierService, private route: ActivatedRoute, private tacheService: TacheService) {
     this.taches = new Array<TacheInterface>();
   }
 
   ngOnInit() {
+    this.tacheService.getAllTaches().subscribe(taches => {
+      console.log('coucou' + JSON.stringify(taches));
+      for(let tache of taches) {
+        if(tache.dateEcheance != null) {
+          tache.dateEcheance = moment(tache.dateEcheance);
+        }
+        this.taches.push(tache);
+      }
+    });
 
+    this.pageTitle = this.route.snapshot.data['title'];
 
-    this.taches.push(
+    if(this.pageTitle === 'Aujourd\'hui') {
+      this.dateCompare = this.dateNow.clone();
+    }
+    if(this.pageTitle === '7 prochains jours') {
+      this.dateCompare = this.dateSevenDays.clone();
+    }
+
+    /*this.taches.push(
       {
         id: 1,
         contenu: 'blabla',
-        dateEcheance: moment('2019-06-06'),
+        dateEcheance: moment('2019-03-12'),
         priorite: 0,
         projet: {
           id: 1,
@@ -40,7 +63,7 @@ export class TachesListComponent implements OnInit {
       {
         id: 2,
         contenu: 'ahah',
-        dateEcheance: moment('2019-06-06'),
+        dateEcheance: moment('2019-03-15'),
         priorite: 1,
         projet: {
           id: 2,
@@ -50,15 +73,15 @@ export class TachesListComponent implements OnInit {
         {
           id: 3,
           contenu: 'bidoowap',
-          dateEcheance: moment(),
+          dateEcheance: moment('2019-03-12'),
           priorite: 2,
           projet: {
             id: 3,
             libelle: 'cuisine'
           }
       }
-    );
-    console.log(this.taches);
+    );*/
+    //console.log(this.taches[0].dateEcheance.format('DD-MM-YYYY HH:mm:ss'));
     this.taches.sort((a, b) => {
       return moment(a.dateEcheance).diff(moment(b.dateEcheance))
     });
@@ -73,16 +96,21 @@ export class TachesListComponent implements OnInit {
           this.taches.splice(this.taches.indexOf(task), 1);
         }
         if (modifyMode) {
-          console.log('Modification demandée ' + task.contenu);
+          console.log('Modification demandée ' + task.dateEcheance.toDate());
           this.taches[this.taches.findIndex(item => item.id === task.id)].contenu = task.contenu;
+          this.taches[this.taches.findIndex(item => item.id === task.id)].dateEcheance = task.dateEcheance;
+          this.taches[this.taches.findIndex(item => item.id === task.id)].priorite = task.priorite;
+          this.taches[this.taches.findIndex(item => item.id === task.id)].projet = task.projet;
           delete this.taches[this.taches.findIndex(item => item.id === task.id)].modify;
         }
         if(!deleteMode && !modifyMode) {
           console.log('Notification de tâche : ' + JSON.stringify(task));
           this.taches.push(task);
           this.taches.sort((a, b) => {
-            return moment(a.dateEcheance).diff(moment(b.dateEcheance))
+            return moment(a.dateEcheance).diff(moment(b.dateEcheance));
           });
+          //TODO idUtilisateur
+
         }
       }
     });

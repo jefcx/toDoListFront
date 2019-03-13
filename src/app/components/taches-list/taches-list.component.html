@@ -1,7 +1,37 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon style="color: #fff">more_vert</mat-icon>
+
+    </button>
+    <span class="title">ToDoList</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [routerLink]="['../accueil']">
+    <mat-icon>home</mat-icon>
+    <span>Accueil</span>
+  </button>
+  <button mat-menu-item [routerLink]="['../boite']">
+    <mat-icon>inbox</mat-icon>
+    <span>Boite de réception</span>
+  </button>
+  <button mat-menu-item [routerLink]="['../today']">
+    <mat-icon>today</mat-icon>
+    <span>Aujourd'hui</span>
+  </button>
+  <button mat-menu-item [routerLink]="['../week']">
+    <mat-icon>calendar_today</mat-icon>
+    <span>7 prochains jours</span>
+  </button>
+</mat-menu>
+
 <div class="general">
   <mat-grid-list cols="4" rowHeight="50px">
     <mat-grid-tile [colspan]="3" [rowspan]="1">
-      <h1>7 prochains jours</h1>
+      <h1>{{ pageTitle }}</h1>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="1" [rowspan]="1">
       <button mat-button (click)="sortBy()" class="trier">&#9662;{{ orderBy }}</button>
@@ -9,6 +39,8 @@
   </mat-grid-list>
 
   <div *ngFor="let tache of taches">
-    <app-tache [tache]="tache"></app-tache>
+    <app-tache *ngIf="(tache.dateEcheance | momentPipe: 'DD-MM-YYYY') < (dateCompare | momentPipe: 'DD-MM-YYYY')" [tache]="tache"></app-tache>
   </div>
 </div>
+
+<app-ajout-tache></app-ajout-tache>
