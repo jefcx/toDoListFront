@@ -1,10 +1,11 @@
+import { AuthService } from 'src/app/shared/connexion/auth-service.service';
 import { TacheService } from './../../shared/services/tache-service.service';
 import { TaskNotifierService } from './../../shared/notifier/task-notifier.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { TacheInterface } from 'src/app/interfaces/tache';
 
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-taches-list',
@@ -17,8 +18,8 @@ export class TachesListComponent implements OnInit {
 
   public taches: Array<TacheInterface>;
 
-  public orderBy: string = 'Date';
-  private orderByValue: boolean = false;
+  public orderBy = 'Date';
+  private orderByValue = false;
 
   public pageTitle: string;
   private dateNow: moment.Moment = moment().add(1, 'days');
@@ -26,11 +27,14 @@ export class TachesListComponent implements OnInit {
   public dateCompare: moment.Moment;
   public boiteReception: boolean = false;
 
-  constructor(private notifier: TaskNotifierService, private route: ActivatedRoute, private tacheService: TacheService) {
+// tslint:disable-next-line: max-line-length
+  constructor(private notifier: TaskNotifierService, private route: ActivatedRoute,
+              private router: Router, private tacheService: TacheService, private authService: AuthService) {
     this.taches = new Array<TacheInterface>();
   }
 
   ngOnInit() {
+
     this.tacheService.getAllTaches().subscribe(taches => {
       if(taches) {
         for(let tache of taches) {
@@ -40,24 +44,24 @@ export class TachesListComponent implements OnInit {
           if(tache.projet.libelle == null) {
             tache.projet.libelle = "Boite de réception";
           }
-          this.taches.sort((a, b) => {
-            if(a.dateEcheance !== null && b.dateEcheance !== null) {
-              return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
-            } else {
-              return 1;
-            }
-          });
-          this.taches.push(tache);
+          this.notifier.sendTask(tache);
         }
       }
+      this.taches.sort((a, b) => {
+        if(a.dateEcheance !== null && b.dateEcheance !== null) {
+          return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
+        } else {
+          return 1;
+        }
+      });
     });
 
-    this.pageTitle = this.route.snapshot.data['title'];
+    this.pageTitle = this.route.snapshot.data.title;
 
-    if(this.pageTitle === 'Aujourd\'hui') {
+    if (this.pageTitle === 'Aujourd\'hui') {
       this.dateCompare = this.dateNow.clone();
     }
-    if(this.pageTitle === '7 prochains jours') {
+    if (this.pageTitle === '7 prochains jours') {
       this.dateCompare = this.dateSevenDays.clone();
     }
     if(this.pageTitle === 'Dashboard') {
@@ -65,19 +69,11 @@ export class TachesListComponent implements OnInit {
       this.boiteReception = true;
     }
 
-    this.taches.sort((a, b) => {
-      if(a.dateEcheance !== null && b.dateEcheance !== null) {
-        return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
-      } else {
-        return 1;
-      }
-    });
-
     this.notifier.taskShare.subscribe((task) => {
       if (task) {
 
-        let deleteMode: boolean = task.hasOwnProperty('delete') && task.delete;
-        let modifyMode: boolean = task.hasOwnProperty('modify') && task.modify;
+        const deleteMode: boolean = task.hasOwnProperty('delete') && task.delete;
+        const modifyMode: boolean = task.hasOwnProperty('modify') && task.modify;
 
         if (deleteMode) {
           this.taches.splice(this.taches.indexOf(task), 1);
@@ -91,6 +87,11 @@ export class TachesListComponent implements OnInit {
           delete this.taches[this.taches.findIndex(item => item.id === task.id)].modify;
         }
         if(!deleteMode && !modifyMode) {
+
+          if(this.taches.findIndex(item => item.id === task.id)) {
+            this.taches.push(task);
+          }
+
 
           this.taches.sort((a, b) => {
             if(a.dateEcheance !== null && b.dateEcheance !== null) {
@@ -108,14 +109,14 @@ export class TachesListComponent implements OnInit {
     this.taches.push(tache);
   }*/
 
-  public sortBy(): void{
-    if(this.orderByValue === false) {
+  public sortBy(): void {
+    if (this.orderByValue === false) {
       this.taches.sort((a, b) => a.projet.libelle.localeCompare(b.projet.libelle));
       this.orderByValue = true;
       this.orderBy = 'Projet';
       return;
     }
-    if(this.orderByValue === true) {
+    if (this.orderByValue === true) {
       this.taches.sort((a, b) => {
         if(a.dateEcheance !== null && b.dateEcheance !== null) {
           return new Date(a.dateEcheance.toDate()).getTime() - new Date(b.dateEcheance.toDate()).getTime();
@@ -128,4 +129,10 @@ export class TachesListComponent implements OnInit {
       return ;
     }
   }
+public disconnect(): void {
+
+      this.authService.removeToken('user');
+      this.router.navigate(['../user']);
+    }
+
 }

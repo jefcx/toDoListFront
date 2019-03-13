@@ -1,5 +1,5 @@
 h1{
-  color: rgba($color: #000000, $alpha: .6);
+  color: rgba($color: #000000, $alpha: 1.0);
   font-weight: normal;
   font-size: 25px;
   margin-bottom: 0;
@@ -7,7 +7,9 @@ h1{
   position: absolute;
   left: 5px;
   top: 0;
-}
+
+  }
+
 
 
 .general {
@@ -39,4 +41,16 @@ mat-toolbar {
   display: inline-block;
   font-family: 'Sriracha', cursive;
   font-size: 25px;
+}
+
+.cancel {
+  color: #fff;
+  position: absolute;
+  right: 10%;
+  width: 100px;
+  //margin-left: -50px;
+  text-align: right;
+  display: inline-block;
+  cursor: pointer;
+
 }

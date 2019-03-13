@@ -18,21 +18,26 @@ mat-card-actions{
 }
 
 .resume {
-  padding:5%
+  text-align: center;
+  color: white;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.resume div {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .mat-card{
   width: 100%}
 
 .giphy-embed{ color: #fff;
-  position: absolute;
-  left: 10%;
-  top: 60%;
   width: 300px;
-//  margin-left: 100px;
-  text-align: center;
-  display: inline-block;
-
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .test{
@@ -41,11 +46,9 @@ mat-card-actions{
   bottom: 0;
   left: 0;
   right: 0;
- // background-image: url("../../../assets/gif/giphy2.gif");
-  background-repeat: repeat;
-  background-size: 150px;
   background-color: #114375;
 }
+
 .mat-raised-button.mat-primary {
   background-color: #FF4949 !important;
 }
