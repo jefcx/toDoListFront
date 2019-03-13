@@ -18,7 +18,8 @@ mat-card-actions{
 }
 
 .resume {
-  padding:5%
+  padding:5%;
+  text-align: center;
 }
 
 .mat-card{
@@ -27,7 +28,7 @@ mat-card-actions{
 .giphy-embed{ color: #fff;
   position: absolute;
   left: 10%;
-  top: 60%;
+  top: 50%;
   width: 300px;
 //  margin-left: 100px;
   text-align: center;
@@ -48,10 +49,8 @@ mat-card-actions{
 }
 .mat-raised-button.mat-primary {
   background-color: #FF4949 !important;
-}
-.logo2{
-  color : white;
-  fill: white;
+
+  //right: 100%;
 }
 
 .resume{

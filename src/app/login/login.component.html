@@ -4,16 +4,16 @@
    <mat-card-content>
       <form class="my-form">
          <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
-            <input  matInput  placeholder="Email" name="email">
+            <mat-label>Login</mat-label>
+            <input  matInput placeholder="Login" name="login" #login>
          </mat-form-field>
          <mat-form-field class="full-width">
             <mat-label>Mot de Passe</mat-label>
-            <input  matInput  placeholder="Mot de Passe" name="password">
+            <input  matInput  placeholder="Mot de Passe" name="password" type="password" #password>
          </mat-form-field>
       </form>
    </mat-card-content>
    <mat-card-actions>
-      <button mat-raised-button (click)="login()" color="primary">LOGIN</button>
+      <button mat-raised-button [mat-dialog-close]="{log: login.value, pwd: password.value}" color="primary">LOGIN</button>
    </mat-card-actions>
 </mat-card>

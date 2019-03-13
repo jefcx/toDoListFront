@@ -1,13 +1,13 @@
+import { TacheService } from './../../shared/services/tache-service.service';
 import { Component, OnInit, ViewChildren, Input } from '@angular/core';
 import * as moment from 'moment';
 import { TaskNotifierService } from 'src/app/shared/notifier/task-notifier.service';
 import { TextAreaValueDirective } from 'src/app/shared/directives/text-area-value.directive';
 import { TacheInterface } from 'src/app/interfaces/tache';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar, ThemePalette } from '@angular/material';
 import { ProjetDialogComponent } from '../projet-dialog/projet-dialog.component';
 import { ProjetInterface } from 'src/app/interfaces/projet';
 import { FormControl } from '@angular/forms';
-import { $ } from 'protractor';
 
 
 @Component({
@@ -36,23 +36,9 @@ export class AjoutTacheComponent implements OnInit {
 
   public projets: Array<ProjetInterface> = new Array<ProjetInterface>();
 
-  constructor(private notifier: TaskNotifierService, public dialog: MatDialog) { }
+  constructor(private notifier: TaskNotifierService, public dialog: MatDialog, private snackBar: MatSnackBar, private tacheService: TacheService) { }
 
   ngOnInit() {
-
-    this.projets.push(
-      {
-        id: 1,
-        libelle: 'sport'
-      },
-      {
-        id: 2,
-        libelle: 'cacaprout'
-      },
-      {
-        id: 3,
-        libelle: 'cuisine'
-      });
 
     this.tache = {
       id: null,
@@ -136,6 +122,10 @@ export class AjoutTacheComponent implements OnInit {
         this.tache.projet.libelle = this.projetSelect;
       }
 
+      if(this.date.value) {
+        this.tache.dateEcheance = moment(this.date.value);
+      }
+
       this.notifier.sendTask(
         {
         id: this.tache.id,
@@ -146,7 +136,14 @@ export class AjoutTacheComponent implements OnInit {
         modify: true
         });
 
+        console.log('arrrr '+this.tache.dateEcheance.toDate());
+
       delete this.tache.modify;
+
+      this.snackBar.open("Tache modifiée", "Ok", {
+        duration: 2000
+      });
+
     } else {
 
       let dateTemp: moment.Moment = null;
@@ -155,8 +152,11 @@ export class AjoutTacheComponent implements OnInit {
         dateTemp = moment(this.date.value);
       }
 
-      this.notifier.sendTask(
-        {
+      this.snackBar.open('Tache créée', "Ok", {
+        duration: 2000
+      });
+
+      let myTache = {
         id: null,
         contenu: value,
         dateEcheance: dateTemp,
@@ -164,7 +164,17 @@ export class AjoutTacheComponent implements OnInit {
         projet: {
           libelle: this.projetSelect
         }
-        });
+      };
+
+      this.tacheService.saveTache(myTache).subscribe(result => {
+        console.log('sauvegarde' + JSON.stringify(result));
+        myTache.id = result.id;
+        if(result !== null) {
+          this.notifier.sendTask(myTache);
+        }
+      });
+
+
     }
     this.buttonIsClicked = true;
     this.deleteValue = true;
@@ -190,5 +200,9 @@ export class AjoutTacheComponent implements OnInit {
         this.projetSelect = result.input;
       }
     });
+  }
+
+  public test(): void {
+    console.log('coucou');
   }
 }

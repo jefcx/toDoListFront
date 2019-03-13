@@ -10,19 +10,22 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>
+  <button mat-menu-item [routerLink]="['../accueil']">
+    <mat-icon>home</mat-icon>
+    <span>Accueil</span>
+  </button>
+  <button mat-menu-item [routerLink]="['../boite']">
     <mat-icon>inbox</mat-icon>
     <span>Boite de réception</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item [routerLink]="['../today']">
     <mat-icon>today</mat-icon>
     <span>Aujourd'hui</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item [routerLink]="['../week']">
     <mat-icon>calendar_today</mat-icon>
     <span>7 prochains jours</span>
   </button>
 </mat-menu>
 
-<app-taches-list></app-taches-list>
 <app-ajout-tache></app-ajout-tache>

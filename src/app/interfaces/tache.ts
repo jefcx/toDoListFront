@@ -9,4 +9,5 @@ export interface TacheInterface {
   projet: ProjetInterface;
   delete?: boolean;
   modify?: boolean;
+  idUtilisateur?: number;
 }

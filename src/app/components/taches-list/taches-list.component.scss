@@ -1,13 +1,15 @@
 h1{
-  color: rgba($color: #000000, $alpha: .6);
+  color: rgba($color: #000000, $alpha: 1.0);
   font-weight: normal;
   font-size: 25px;
   margin-bottom: 0;
   padding-bottom: 0;
   position: absolute;
   left: 5px;
-  top: 0;
-}
+  top: 5;
+
+  }
+
 
 
 .general {
@@ -19,4 +21,36 @@ h1{
   right: 5px;
   top: 16px;
   color: rgba($color: #000000, $alpha: .4)
+}
+
+mat-toolbar {
+  background-color: #FF4949 !important;
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.title {
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  width: 100px;
+  margin-left: -50px;
+  text-align: center;
+  display: inline-block;
+  font-family: 'Sriracha', cursive;
+  font-size: 25px;
+}
+
+.cancel {
+  color: #fff;
+  position: absolute;
+  right: 10%;
+  width: 100px;
+  //margin-left: -50px;
+  text-align: right;
+  display: inline-block;
+  cursor: pointer;
+
 }
