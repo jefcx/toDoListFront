@@ -88,7 +88,7 @@ export class TachesListComponent implements OnInit {
         }
         if(!deleteMode && !modifyMode) {
 
-          if(this.taches.findIndex(item => item.id === task.id)) {
+          if(!this.taches[this.taches.findIndex(item => item.contenu === task.contenu)]) {
             this.taches.push(task);
           }
 

@@ -28,4 +28,26 @@
   </button>
 </mat-menu>
 
-<app-ajout-tache></app-ajout-tache>
+<div class="general">
+  <h5>En retard</h5>
+  <div *ngFor="let tache of tachesLate">
+    <app-tache [tache]="tache"></app-tache>
+  </div>
+
+  <h5>Aujourd'hui</h5>
+  <div *ngFor="let tache of tachesToday">
+    <app-tache [tache]="tache"></app-tache>
+  </div>
+
+  <h5>7 prochains jours</h5>
+  <div *ngFor="let tache of tachesWeek">
+    <app-tache [tache]="tache"></app-tache>
+  </div>
+
+  <h5>Autres</h5>
+  <div *ngFor="let tache of tachesOthers">
+    <app-tache [tache]="tache"></app-tache>
+  </div>
+
+  <app-ajout-tache></app-ajout-tache>
+</div>
