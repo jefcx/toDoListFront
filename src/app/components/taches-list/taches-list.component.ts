@@ -22,10 +22,12 @@ export class TachesListComponent implements OnInit {
   private orderByValue = false;
 
   public pageTitle: string;
-  private dateNow: moment.Moment = moment().add(1, 'days');
+  public dateNow: moment.Moment = moment().add(1, 'days');
   private dateSevenDays: moment.Moment = moment().add(7, 'days');
   public dateCompare: moment.Moment;
   public boiteReception: boolean = false;
+  public week: boolean = false;
+  public currentDate: moment.Moment = moment();
 
 // tslint:disable-next-line: max-line-length
   constructor(private notifier: TaskNotifierService, private route: ActivatedRoute,
@@ -63,6 +65,7 @@ export class TachesListComponent implements OnInit {
     }
     if (this.pageTitle === '7 prochains jours') {
       this.dateCompare = this.dateSevenDays.clone();
+      this.week = true;
     }
     if(this.pageTitle === 'Dashboard') {
       this.dateCompare = null;

@@ -41,7 +41,11 @@
   </mat-grid-list>
 
   <div *ngFor="let tache of taches">
-    <app-tache *ngIf="(((tache.dateEcheance | momentPipe: 'DD-MM-YYYY') < (dateCompare | momentPipe: 'DD-MM-YYYY')) && boiteReception == false)" [tache]="tache"></app-tache>
+    <app-tache *ngIf="(((tache.dateEcheance | momentPipe: 'DD-MM-YYYY') < (dateCompare | momentPipe: 'DD-MM-YYYY'))
+    && boiteReception == false && week == false)" [tache]="tache"></app-tache>
+    <app-tache *ngIf="(((tache.dateEcheance | momentPipe: 'DD-MM-YYYY') < (dateCompare | momentPipe: 'DD-MM-YYYY'))
+    && boiteReception == false && week == true
+    && ((tache.dateEcheance | momentPipe: 'DD-MM-YYYY') !== (currentDate | momentPipe: 'DD-MM-YYYY')))" [tache]="tache"></app-tache>
     <app-tache *ngIf="(tache.dateEcheance == null && dateCompare == null) || (boiteReception == true && tache.projet.libelle == null)" [tache]="tache"></app-tache>
   </div>
 </div>
